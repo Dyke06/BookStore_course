@@ -1,5 +1,6 @@
 package com.BookStoreV1.BookStore.Controller;
 
+import com.BookStoreV1.BookStore.Service.UserService;
 import com.BookStoreV1.BookStore.repository.UserRepository;
 import com.BookStoreV1.BookStore.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api")
 public class UserController {
+
+    private UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     UserRepository userRepository;
