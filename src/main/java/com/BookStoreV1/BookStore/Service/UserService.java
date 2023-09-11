@@ -1,6 +1,6 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.authorException.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.userException.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.dto.UserDTO;
 import com.BookStoreV1.BookStore.mapper.UserMapper;
 import com.BookStoreV1.BookStore.models.User;
@@ -21,8 +21,14 @@ public class UserService {
     }
 
     public UserDTO create(UserDTO userDTO){
+        verifyIfExists(userDTO.getEmail());
         User userToCreate = userMapper.toModel(userDTO);
         User createdUser = userRepository.save(userToCreate);
         return userMapper.toDto(createdUser);
+    }
+
+    private void verifyIfExists(String userEmail){
+        userRepository.findByEmail(userEmail)
+                .ifPresent(user -> {throw new UserAlreadExistsException(userEmail);});
     }
 }

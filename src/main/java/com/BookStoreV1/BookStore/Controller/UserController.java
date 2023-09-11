@@ -1,11 +1,14 @@
 package com.BookStoreV1.BookStore.Controller;
 
 import com.BookStoreV1.BookStore.Service.UserService;
+import com.BookStoreV1.BookStore.dto.UserDTO;
 import com.BookStoreV1.BookStore.repository.UserRepository;
 import com.BookStoreV1.BookStore.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,11 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO create(@RequestBody @Valid UserDTO userDTO) {
+        return userService.create(userDTO);
+    }
 
     @GetMapping("/usuarios")
     public List<User> listarUsuarios(){

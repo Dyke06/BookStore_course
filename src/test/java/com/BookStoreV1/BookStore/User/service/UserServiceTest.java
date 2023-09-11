@@ -2,21 +2,17 @@ package com.BookStoreV1.BookStore.User.service;
 
 import com.BookStoreV1.BookStore.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.authorException.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.userException.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.dto.UserDTO;
 import com.BookStoreV1.BookStore.mapper.UserMapper;
 import com.BookStoreV1.BookStore.models.User;
 import com.BookStoreV1.BookStore.repository.UserRepository;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -51,7 +47,7 @@ public class UserServiceTest {
 
        //when
         when(userRepository.save(expectedCreatedUser)).thenReturn(expectedCreatedUser);
-        when(userRepository.findByName(expectedUserToCreateDTO.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(expectedUserToCreateDTO.getEmail())).thenReturn(Optional.empty());
 
         UserDTO createdUserDTO = userService.create(expectedUserToCreateDTO);
 
@@ -66,7 +62,7 @@ public class UserServiceTest {
         UserDTO expectedUserToCreateDTO = userDTOBuilder.builderUserDTO();
         User expectedCreatedUser = userMapper.toModel(expectedUserToCreateDTO);
 
-        when(userRepository.findByName(expectedUserToCreateDTO.getEmail()))
+        when(userRepository.findByEmail(expectedUserToCreateDTO.getEmail()))
                 .thenReturn(Optional.of(expectedCreatedUser));
 
         assertThrows(UserAlreadExistsException.class, () -> userService.create(expectedUserToCreateDTO));
