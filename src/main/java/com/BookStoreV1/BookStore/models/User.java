@@ -3,12 +3,11 @@ package com.BookStoreV1.BookStore.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "TB_USER")
-public class User implements Serializable {
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

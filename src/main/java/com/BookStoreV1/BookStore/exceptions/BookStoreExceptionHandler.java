@@ -1,6 +1,4 @@
-package com.BookStoreV1.BookStore.exception;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package com.BookStoreV1.BookStore.exceptions;
 import java.util.*;
 
 // Importar http, validation, bind, context e servlet
@@ -8,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
