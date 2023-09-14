@@ -47,8 +47,7 @@ public class UserControllerTest {
     void whenPostIsCalledThenStatusCreatedShouldBeReturned() throws Exception {
         UserDTO expectedCreatedUserDTO = userDTOBuilder.builderUserDTO();
 
-        when(userService.create(expectedCreatedUserDTO))
-                .thenReturn(expectedCreatedUserDTO);
+
 
         mockMvc.perform(post("/api")
                         .contentType(MediaType.APPLICATION_JSON)

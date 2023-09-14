@@ -1,5 +1,6 @@
 package com.BookStoreV1.BookStore.Service;
 
+import com.BookStoreV1.BookStore.dto.MessageDTO;
 import com.BookStoreV1.BookStore.userException.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.dto.UserDTO;
 import com.BookStoreV1.BookStore.mapper.UserMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +23,47 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserDTO create(UserDTO userDTO){
-        verifyIfExists(userDTO.getEmail());
-        User userToCreate = userMapper.toModel(userDTO);
-        User createdUser = userRepository.save(userToCreate);
-        return userMapper.toDto(createdUser);
+    public MessageDTO create(UserDTO userToCreateDTo){
+        VerifyExistss(userToCreateDTo.getEmail());
+        User userToCreate = userMapper.toModel(userToCreateDTo);
+       User createdUser = userRepository.save(userToCreate);
+       return creationMessage(createdUser);
     }
+
+    public MessageDTO update(Long id, UserDTO userToUpdateDTo){
+        User foundUser = verifyAndGetUser(id);
+
+        userToUpdateDTo.setId(foundUser.getId());
+        User userToUpdate = userMapper.toModel(userToUpdateDTo);
+        User updateUser = userRepository.save(userToUpdate);
+        return updateMessage(updateUser);
+    }
+
+    private void VerifyExistss(String email) {
+        Optional<User> foundUser = userRepository.findByEmail(email);
+        if (foundUser.isPresent()){
+            throw new UserAlreadExistsException(email);
+        }
+    }
+
+    private MessageDTO creationMessage(User createdUser) {
+        return returnMessage(createdUser, "Createdd");
+    }
+
+    private MessageDTO updateMessage(User updateUser) {
+        return returnMessage(updateUser, "Updatedd");
+    }
+
+    private MessageDTO returnMessage(User updateUser, String action) {
+        String username = updateUser.getNome();
+        Long createdId = updateUser.getId();
+        String createdUserMessage = String.format("UserName %s with ID %s successfuly %s", username, createdId, action);
+        return MessageDTO.builder()
+                .message(createdUserMessage)
+                .build();
+    }
+
+
 
     public UserDTO findById(Long id){
         User foundUser = verifyAndGetUser(id);

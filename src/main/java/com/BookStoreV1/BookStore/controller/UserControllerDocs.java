@@ -1,12 +1,15 @@
 package com.BookStoreV1.BookStore.controller;
 
+import com.BookStoreV1.BookStore.dto.MessageDTO;
 import com.BookStoreV1.BookStore.dto.UserDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -17,8 +20,7 @@ public interface UserControllerDocs {
             @ApiResponse(code = 201, message = "Success User creation"),
             @ApiResponse(code = 400, message = "Missing required fields, wrong field range value or User already registered on system")
     })
-    UserDTO create(UserDTO userDTO);
-
+    MessageDTO create(UserDTO userToCreateDTo);
     @ApiOperation(value = "Find User by id operation")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success User found"),
@@ -41,4 +43,12 @@ public interface UserControllerDocs {
     })
 
     void delete(Long id);
+
+    @ApiOperation(value = "User update operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success User Update"),
+            @ApiResponse(code = 404, message = "User not found error code")
+    })
+
+    MessageDTO update(Long id,UserDTO userToUpdateDTo);
 }
