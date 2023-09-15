@@ -62,8 +62,6 @@ public class UserService {
                 .build();
     }
 
-
-
     public UserDTO findById(Long id){
         User foundUser = verifyAndGetUser(id);
         return userMapper.toDto(foundUser);
