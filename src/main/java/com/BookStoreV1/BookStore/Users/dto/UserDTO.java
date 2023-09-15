@@ -1,4 +1,4 @@
-package com.BookStoreV1.BookStore.dto;
+package com.BookStoreV1.BookStore.Users.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

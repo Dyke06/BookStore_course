@@ -1,13 +1,12 @@
 package com.BookStoreV1.BookStore.User.service;
 
-import com.BookStoreV1.BookStore.Service.UserService;
+import com.BookStoreV1.BookStore.Users.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.userException.UserAlreadExistsException;
-import com.BookStoreV1.BookStore.dto.UserDTO;
-import com.BookStoreV1.BookStore.mapper.UserMapper;
-import com.BookStoreV1.BookStore.models.User;
-import com.BookStoreV1.BookStore.repository.UserRepository;
-import org.hamcrest.core.Is;
+import com.BookStoreV1.BookStore.Users.userException.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.mapper.UserMapper;
+import com.BookStoreV1.BookStore.Users.models.User;
+import com.BookStoreV1.BookStore.Users.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsEqual.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

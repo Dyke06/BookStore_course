@@ -1,4 +1,4 @@
-package com.BookStoreV1.BookStore.models;
+package com.BookStoreV1.BookStore.Users.models;
 
 import lombok.Data;
 

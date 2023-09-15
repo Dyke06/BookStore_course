@@ -1,10 +1,9 @@
-package com.BookStoreV1.BookStore.controller;
+package com.BookStoreV1.BookStore.Users.controller;
 
-import com.BookStoreV1.BookStore.Service.UserService;
-import com.BookStoreV1.BookStore.dto.MessageDTO;
-import com.BookStoreV1.BookStore.dto.UserDTO;
-import com.BookStoreV1.BookStore.repository.UserRepository;
-import com.BookStoreV1.BookStore.models.User;
+import com.BookStoreV1.BookStore.Users.Service.UserService;
+import com.BookStoreV1.BookStore.Users.dto.MessageDTO;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import java.util.List;
 public class UserController implements UserControllerDocs{
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserRepository userRepository;
     @PostMapping

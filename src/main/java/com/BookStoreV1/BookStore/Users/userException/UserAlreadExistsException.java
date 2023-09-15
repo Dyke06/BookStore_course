@@ -1,4 +1,4 @@
-package com.BookStoreV1.BookStore.userException;
+package com.BookStoreV1.BookStore.Users.userException;
 
 import javax.persistence.EntityExistsException;
 

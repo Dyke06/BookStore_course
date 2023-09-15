@@ -1,13 +1,12 @@
-package com.BookStoreV1.BookStore.Service;
+package com.BookStoreV1.BookStore.Users.Service;
 
-import com.BookStoreV1.BookStore.dto.MessageDTO;
-import com.BookStoreV1.BookStore.userException.UserAlreadExistsException;
-import com.BookStoreV1.BookStore.dto.UserDTO;
-import com.BookStoreV1.BookStore.mapper.UserMapper;
-import com.BookStoreV1.BookStore.models.User;
-import com.BookStoreV1.BookStore.repository.UserRepository;
-import com.BookStoreV1.BookStore.userException.userNotFoundException;
-import org.mapstruct.control.MappingControl;
+import com.BookStoreV1.BookStore.Users.userException.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.Users.dto.MessageDTO;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.models.User;
+import com.BookStoreV1.BookStore.Users.repository.UserRepository;
+import com.BookStoreV1.BookStore.Users.mapper.UserMapper;
+import com.BookStoreV1.BookStore.Users.userException.userNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

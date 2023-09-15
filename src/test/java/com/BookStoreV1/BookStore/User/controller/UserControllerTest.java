@@ -1,9 +1,9 @@
 package com.BookStoreV1.BookStore.User.controller;
 
-import com.BookStoreV1.BookStore.controller.UserController;
-import com.BookStoreV1.BookStore.Service.UserService;
+import com.BookStoreV1.BookStore.Users.controller.UserController;
+import com.BookStoreV1.BookStore.Users.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import static com.BookStoreV1.BookStore.utils.JsonConversionUtils.*;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

@@ -1,6 +1,6 @@
 package com.BookStoreV1.BookStore.utils;
 
-import com.BookStoreV1.BookStore.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

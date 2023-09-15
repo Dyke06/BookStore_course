@@ -1,6 +1,6 @@
-package com.BookStoreV1.BookStore.repository;
+package com.BookStoreV1.BookStore.Users.repository;
 
-import com.BookStoreV1.BookStore.models.User;
+import com.BookStoreV1.BookStore.Users.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

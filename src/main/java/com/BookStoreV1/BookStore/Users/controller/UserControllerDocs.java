@@ -1,15 +1,12 @@
-package com.BookStoreV1.BookStore.controller;
+package com.BookStoreV1.BookStore.Users.controller;
 
-import com.BookStoreV1.BookStore.dto.MessageDTO;
-import com.BookStoreV1.BookStore.dto.UserDTO;
+import com.BookStoreV1.BookStore.Users.dto.MessageDTO;
+import com.BookStoreV1.BookStore.Users.dto.UserDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
