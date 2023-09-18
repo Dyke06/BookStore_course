@@ -1,6 +1,7 @@
 package com.BookStoreV1.BookStore.Books.model;
 
 import com.BookStoreV1.BookStore.Publisher.model.Publisher;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,13 +20,13 @@ public class Book {
     private String autor;
 
     @Column(length = 4, nullable = false)
-    private int lancamento;
+    private Integer lancamento;
 
     @Column(length = 6, nullable = false)
-    private int totalalugado;
+    private Integer totalalugado;
 
     @Column(length = 6, nullable = false)
-    private int quantidade;
+    private Integer quantidade;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Publisher publisher;

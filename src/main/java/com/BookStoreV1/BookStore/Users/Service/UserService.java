@@ -38,6 +38,23 @@ public class UserService {
         return updateMessage(updateUser);
     }
 
+    public UserDTO findById(Long id){
+        User foundUser = verifyAndGetUser(id);
+        return userMapper.toDto(foundUser);
+    }
+
+    public List<UserDTO> findALL(){
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public void delete(Long id){
+        verifyAndGetUser(id);
+        userRepository.deleteById(id);
+    }
+
     private void VerifyExistss(String email) {
         Optional<User> foundUser = userRepository.findByEmail(email);
         if (foundUser.isPresent()){
@@ -60,23 +77,6 @@ public class UserService {
         return MessageDTO.builder()
                 .message(createdUserMessage)
                 .build();
-    }
-
-    public UserDTO findById(Long id){
-        User foundUser = verifyAndGetUser(id);
-        return userMapper.toDto(foundUser);
-    }
-
-    public List<UserDTO> findALL(){
-        return userRepository.findAll()
-                .stream()
-                .map(userMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public void delete(Long id){
-        verifyAndGetUser(id);
-        userRepository.deleteById(id);
     }
 
     private User verifyAndGetUser(Long id){
