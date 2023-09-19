@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @AllArgsConstructor
@@ -28,18 +26,12 @@ public class BookRequestDTO {
     private String autor;
 
     @NotNull
-    @NotEmpty
-    @Size(max = 4)
     private Integer lancamento;
 
     @NotNull
-    @NotEmpty
-    @Size(max = 6)
     private Integer totalalugado;
 
     @NotNull
-    @NotEmpty
-    @Size(max = 6)
     private Integer quantidade;
 
     @NotNull

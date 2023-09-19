@@ -20,16 +20,15 @@ public class Book {
     private String autor;
 
     @Column(length = 4, nullable = false)
-    private Integer lancamento;
+    private int lancamento;
 
     @Column(length = 6, nullable = false)
-    private Integer totalalugado;
+    private int totalalugado;
 
     @Column(length = 6, nullable = false)
-    private Integer quantidade;
+    private int quantidade;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Publisher publisher;
-
 
 }
