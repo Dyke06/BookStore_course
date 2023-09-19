@@ -1,10 +1,11 @@
 package com.BookStoreV1.BookStore.Books.model;
 
 import com.BookStoreV1.BookStore.Publisher.model.Publisher;
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "Book")
