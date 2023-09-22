@@ -3,6 +3,7 @@ package com.BookStoreV1.BookStore.Books.Service;
 import com.BookStoreV1.BookStore.Books.dto.BookRequestDTO;
 import com.BookStoreV1.BookStore.Books.dto.BookResponseDTO;
 import com.BookStoreV1.BookStore.Books.exception.BookAlreadyExistsException;
+import com.BookStoreV1.BookStore.Books.exception.BookNotFoundExeption;
 import com.BookStoreV1.BookStore.Books.mapper.BookMapper;
 import com.BookStoreV1.BookStore.Books.model.Book;
 import com.BookStoreV1.BookStore.Books.repository.BookRepository;
@@ -30,6 +31,12 @@ public class BookService {
        bookToSave.setPublisher(foundPublisher);
        Book savedBook = bookRepository.save(bookToSave);
        return bookMapper.toDTO(savedBook);
+    }
+
+    public BookResponseDTO findById(Long bookId){
+        return bookRepository.findById(bookId)
+                .map(bookMapper::toDTO)
+                .orElseThrow(() -> new BookNotFoundExeption(bookId));
     }
 
     private void verifyIfBookAlreadyRegistred(BookRequestDTO bookRequestDTO) {
