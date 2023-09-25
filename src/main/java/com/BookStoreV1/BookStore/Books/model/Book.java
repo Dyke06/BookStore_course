@@ -21,7 +21,7 @@ public class Book {
     private String autor;
 
     @Column(length = 4, nullable = false)
-    private int lancamento;
+    private LocalDate lancamento;
 
     @Column(length = 6, nullable = false)
     private int totalalugado;

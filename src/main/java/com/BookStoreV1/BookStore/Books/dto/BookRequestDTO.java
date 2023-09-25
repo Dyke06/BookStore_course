@@ -1,12 +1,11 @@
 package com.BookStoreV1.BookStore.Books.dto;
 
-import com.BookStoreV1.BookStore.Publisher.model.Publisher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class BookRequestDTO {
     private String autor;
 
     @NotNull
-    private Integer lancamento;
+    private LocalDate lancamento;
 
     @NotNull
     private Integer totalalugado;
