@@ -1,6 +1,6 @@
 package com.BookStoreV1.BookStore.User.builder;
 
-import com.BookStoreV1.BookStore.Users.dto.UserDTO;
+import com.BookStoreV1.BookStore.Dto.UserDTO;
 import lombok.Builder;
 
 @Builder

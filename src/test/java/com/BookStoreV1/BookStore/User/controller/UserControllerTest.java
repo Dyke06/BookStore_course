@@ -1,9 +1,9 @@
 package com.BookStoreV1.BookStore.User.controller;
 
-import com.BookStoreV1.BookStore.Users.controller.UserController;
-import com.BookStoreV1.BookStore.Users.Service.UserService;
+import com.BookStoreV1.BookStore.Controller.UserController;
+import com.BookStoreV1.BookStore.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.Users.dto.UserDTO;
+import com.BookStoreV1.BookStore.Dto.UserDTO;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

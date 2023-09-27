@@ -1,12 +1,12 @@
 package com.BookStoreV1.BookStore.User.service;
 
-import com.BookStoreV1.BookStore.Users.Service.UserService;
+import com.BookStoreV1.BookStore.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.Users.userException.UserAlreadExistsException;
-import com.BookStoreV1.BookStore.Users.dto.UserDTO;
-import com.BookStoreV1.BookStore.Users.mapper.UserMapper;
-import com.BookStoreV1.BookStore.Users.models.User;
-import com.BookStoreV1.BookStore.Users.repository.UserRepository;
+import com.BookStoreV1.BookStore.Validation.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.Dto.UserDTO;
+import com.BookStoreV1.BookStore.Mapper.UserMapper;
+import com.BookStoreV1.BookStore.Model.User;
+import com.BookStoreV1.BookStore.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
