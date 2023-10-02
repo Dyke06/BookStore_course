@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api("Publisher manggement")
+@Api(tags = "Publishers")
 public interface PublisherControllerDocs {
 
     @ApiOperation(value = "Publisher cration operation")

@@ -21,5 +21,6 @@ public class RentResponseDTO {
 
     private UserDTO user;
 
-    private BookRequestDTO book;
+    private BookResponseDTO book;
+
 }

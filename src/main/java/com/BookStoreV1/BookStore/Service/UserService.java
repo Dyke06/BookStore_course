@@ -6,7 +6,7 @@ import com.BookStoreV1.BookStore.Dto.UserDTO;
 import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.UserRepository;
 import com.BookStoreV1.BookStore.Mapper.UserMapper;
-import com.BookStoreV1.BookStore.Validation.userNotFoundException;
+import com.BookStoreV1.BookStore.Validation.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +80,7 @@ public class UserService {
 
     public User verifyAndGetUser(Long id){
         User foundUser = userRepository.findById(id)
-                .orElseThrow(() -> new userNotFoundException(id));
+                .orElseThrow(() -> new UserNotFoundException(id));
         return foundUser;
 
     }

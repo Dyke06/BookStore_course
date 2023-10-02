@@ -4,6 +4,7 @@ import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
 import com.BookStoreV1.BookStore.Model.Rent;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -16,3 +17,4 @@ public interface RentMapper {
 
     RentResponseDTO toDTO(Rent rent);
 }
+

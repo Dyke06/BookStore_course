@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api("Books model manageent")
+@Api(tags = "Books")
 public interface BookControllerDocs {
     @ApiOperation(value = "Book creation operation")
     @ApiResponses(value = {

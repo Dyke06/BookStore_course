@@ -6,11 +6,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.List;
 
-@Api("Rents module manage")
+@Api(tags = "Rents")
 public interface RentControllerDocs {
 
     @ApiOperation(value = "Rent Operation")
@@ -19,4 +21,26 @@ public interface RentControllerDocs {
             @ApiResponse(code = 400, message = "Error creation rent")
     })
     RentResponseDTO create(RentRequestDTO rentRequestDTO);
+
+    @ApiOperation(value = "List all rents")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "List found informed"),
+    })
+
+    List<RentResponseDTO> findALL();
+
+    @ApiOperation(value = "Rent find by id operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success rent found"),
+            @ApiResponse(code = 404, message = "rent not found error")
+    })
+
+    RentResponseDTO findById(Long rentId);
+
+    @ApiOperation(value = "Rent delete operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Success rent book"),
+            @ApiResponse(code = 404, message = "Book not rent error")
+    })
+    void delete(Long rentId);
 }
