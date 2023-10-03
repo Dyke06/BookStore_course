@@ -2,7 +2,7 @@ package com.BookStoreV1.BookStore.User.service;
 
 import com.BookStoreV1.BookStore.Service.UserService;
 import com.BookStoreV1.BookStore.User.builder.UserDTOBuilder;
-import com.BookStoreV1.BookStore.Validation.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.Validation.User.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
 import com.BookStoreV1.BookStore.Mapper.UserMapper;
 import com.BookStoreV1.BookStore.Model.User;

@@ -1,12 +1,12 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.Validation.UserAlreadExistsException;
+import com.BookStoreV1.BookStore.Validation.User.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.Dto.MessageDTO;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
 import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.UserRepository;
 import com.BookStoreV1.BookStore.Mapper.UserMapper;
-import com.BookStoreV1.BookStore.Validation.UserNotFoundException;
+import com.BookStoreV1.BookStore.Validation.User.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package com.BookStoreV1.BookStore.Service;
 
 import com.BookStoreV1.BookStore.Dto.PublisherDTO;
-import com.BookStoreV1.BookStore.Validation.PublisherAlreadyExistsException;
-import com.BookStoreV1.BookStore.Validation.PublisherNotFoundException;
+import com.BookStoreV1.BookStore.Validation.Publisher.PublisherAlreadyExistsException;
+import com.BookStoreV1.BookStore.Validation.Publisher.PublisherNotFoundException;
 import com.BookStoreV1.BookStore.Mapper.PublisherMapper;
 import com.BookStoreV1.BookStore.Model.Publisher;
 import com.BookStoreV1.BookStore.Repository.PublisherRepository;

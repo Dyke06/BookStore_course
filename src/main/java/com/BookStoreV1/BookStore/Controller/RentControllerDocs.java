@@ -6,10 +6,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Rents")
@@ -20,7 +18,7 @@ public interface RentControllerDocs {
             @ApiResponse(code = 201, message = "Sucess creation"),
             @ApiResponse(code = 400, message = "Error creation rent")
     })
-    RentResponseDTO create(RentRequestDTO rentRequestDTO);
+    ResponseEntity<?> create(RentRequestDTO rentRequestDTO);
 
     @ApiOperation(value = "List all rents")
     @ApiResponses(value = {

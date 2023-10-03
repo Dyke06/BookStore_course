@@ -1,4 +1,4 @@
-package com.BookStoreV1.BookStore.Validation;
+package com.BookStoreV1.BookStore.Validation.Book;
 
 import javax.persistence.EntityNotFoundException;
 

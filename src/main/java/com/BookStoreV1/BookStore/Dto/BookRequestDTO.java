@@ -31,6 +31,7 @@ public class BookRequestDTO {
     private Integer totalalugado;
 
     @NotNull
+    @Min(1)
     private Integer quantidade;
 
     @NotNull

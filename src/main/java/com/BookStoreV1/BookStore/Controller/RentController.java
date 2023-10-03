@@ -3,12 +3,12 @@ package com.BookStoreV1.BookStore.Controller;
 import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
 import com.BookStoreV1.BookStore.Service.RentService;
+import com.BookStoreV1.BookStore.Validation.Rent.DataAluguelInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -19,21 +19,17 @@ public class RentController implements RentControllerDocs {
     private RentService rentService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createRent(@RequestBody @Valid RentRequestDTO rentRequestDTO) {
+    public ResponseEntity<?> create(@RequestBody @Valid RentRequestDTO rentRequestDTO) {
         try {
             RentResponseDTO responseDTO = rentService.create(rentRequestDTO);
             return ResponseEntity.ok(responseDTO);
-        } catch (IllegalArgumentException e) {
-
-            return ResponseEntity.badRequest().body("Não pode ter valor");
+        }catch (DataAluguelInvalidException e) {
+            return ResponseEntity.badRequest().body("Message: " + e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Message: Data Devolução não pode ser definida agora.");
         }
     }
-
-    @Override
-    public RentResponseDTO create(RentRequestDTO rentRequestDTO) {
-        return null;
-    }
-
     @GetMapping
     public List<RentResponseDTO> findALL() {
         return rentService.findALL();
@@ -47,4 +43,6 @@ public class RentController implements RentControllerDocs {
     public void delete(@PathVariable Long rentId) {
         rentService.delete(rentId);
     }
+
+
 }

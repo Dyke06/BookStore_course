@@ -7,8 +7,8 @@ import com.BookStoreV1.BookStore.Model.Book;
 import com.BookStoreV1.BookStore.Model.Rent;
 import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
-import com.BookStoreV1.BookStore.Validation.BookNotFoundExeption;
-import com.BookStoreV1.BookStore.Validation.RentNotFoundException;
+import com.BookStoreV1.BookStore.Validation.Rent.DataAluguelInvalidException;
+import com.BookStoreV1.BookStore.Validation.Rent.RentNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +34,7 @@ public class RentService {
         Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
 
         verifyDataDevolucaoIsNull(rentRequestDTO.getData_devolucao());
+        VerifyDataAluguel(rentRequestDTO);
 
         Rent rentToSave = rentMapper.toModel(rentRequestDTO);
         rentToSave.setUser(foundUser);
@@ -44,6 +45,8 @@ public class RentService {
 
         return rentResponseDTO;
     }
+
+
 
     public List<RentResponseDTO> findALL(){
         return rentRepository.findAll()
@@ -66,7 +69,15 @@ public class RentService {
 
     public void verifyDataDevolucaoIsNull(LocalDate dataDevolucao) {
         if (dataDevolucao != null) {
-            throw new IllegalArgumentException("Não pode ter valor");
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static void VerifyDataAluguel(RentRequestDTO rentRequestDTO) {
+        LocalDate dataAluguelHoje = LocalDate.now();
+        LocalDate dataAluguel = rentRequestDTO.getData_aluguel();
+        if (!dataAluguel.isEqual(dataAluguelHoje)) {
+            throw new DataAluguelInvalidException(rentRequestDTO);
         }
     }
 }

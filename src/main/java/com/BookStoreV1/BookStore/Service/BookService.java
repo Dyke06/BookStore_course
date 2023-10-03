@@ -2,8 +2,8 @@ package com.BookStoreV1.BookStore.Service;
 
 import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
-import com.BookStoreV1.BookStore.Validation.BookAlreadyExistsException;
-import com.BookStoreV1.BookStore.Validation.BookNotFoundExeption;
+import com.BookStoreV1.BookStore.Validation.Book.BookAlreadyExistsException;
+import com.BookStoreV1.BookStore.Validation.Book.BookNotFoundExeption;
 import com.BookStoreV1.BookStore.Mapper.BookMapper;
 import com.BookStoreV1.BookStore.Model.Book;
 import com.BookStoreV1.BookStore.Repository.BookRepository;
