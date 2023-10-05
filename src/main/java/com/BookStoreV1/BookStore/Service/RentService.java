@@ -1,6 +1,5 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
 import com.BookStoreV1.BookStore.Mapper.RentMapper;
@@ -46,6 +45,9 @@ public class RentService {
         foundBook.setQuantidade(foundBook.getQuantidade() - 1);
         bookService.update(foundBook.getId(), foundBook);
 
+        foundBook.setTotalalugado(foundBook.getTotalalugado() + 1);
+        bookService.update(foundBook.getId(), foundBook);
+
         RentResponseDTO rentResponseDTO = rentMapper.toDTO(savedRent);
 
         return rentResponseDTO;
@@ -56,12 +58,7 @@ public class RentService {
         User foundUser = userService.verifyAndGetUser(rentRequestDTO.getUserId());
         Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
 
-        LocalDate dataDevolucao = rentRequestDTO.getData_devolucao();
-        if (dataDevolucao != null) {
-            existingRent.setData_devolucao(dataDevolucao);
-        } else {
-            throw new ReturnDateCannotBeNull("A data de devolução não pode ser nula.");
-        }
+        DataDevolucaoIsNotNull(rentRequestDTO, existingRent);
 
         VerifyDataDevolucaoActual(rentRequestDTO);
 
@@ -69,6 +66,10 @@ public class RentService {
         existingRent.setBook(foundBook);
 
         Rent updatedRent = rentRepository.save(existingRent);
+
+        foundBook.setQuantidade(foundBook.getQuantidade() + 1);
+        bookService.update(foundBook.getId(), foundBook);
+
         RentResponseDTO rentResponseDTO = rentMapper.toDTO(updatedRent);
 
         return rentResponseDTO;
@@ -100,7 +101,7 @@ public class RentService {
 
     public void verifyDataDevolucaoIsNull(LocalDate dataDevolucao) {
         if (dataDevolucao != null) {
-            throw new IllegalArgumentException();
+            throw new DataDevolucaoIsNull(dataDevolucao);
         }
     }
 
@@ -120,12 +121,21 @@ public class RentService {
         }
     }
 
+    private static void DataDevolucaoIsNotNull(RentRequestDTO rentRequestDTO, Rent existingRent) {
+        LocalDate dataDevolucao = rentRequestDTO.getData_devolucao();
+        if (dataDevolucao != null) {
+            existingRent.setData_devolucao(dataDevolucao);
+        } else {
+            throw new ReturnDateCannotBeNull(rentRequestDTO);
+        }
+    }
+
     private static void verifyDataPrevisao(RentRequestDTO rentRequestDTO) {
         LocalDate dataAluguel = rentRequestDTO.getData_aluguel();
         LocalDate dataPrevisao = rentRequestDTO.getData_previsao();
 
         if (dataPrevisao.isBefore(dataAluguel)) {
-            throw new DataPrevisaoInvalidException("A data de previsão não pode ser menor que a data de aluguel.");
+            throw new DataPrevisaoInvalidException(rentRequestDTO);
         }
     }
 }

@@ -23,17 +23,8 @@ public class RentController implements RentControllerDocs {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> create(@RequestBody @Valid RentRequestDTO rentRequestDTO) {
-        try {
             RentResponseDTO responseDTO = rentService.create(rentRequestDTO);
             return ResponseEntity.ok(responseDTO);
-        }catch (DataAluguelInvalidException e) {
-            return ResponseEntity.badRequest().body("Message: " + e.getMessage());
-        }catch (DataPrevisaoInvalidException e){
-            return ResponseEntity.badRequest().body("Message: " + e.getMessage());
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Message: Data Devolução não pode ser definida agora.");
-        }
     }
     @GetMapping
     public List<RentResponseDTO> findALL() {
@@ -51,14 +42,8 @@ public class RentController implements RentControllerDocs {
 
     @PutMapping("/{rentId}")
     public ResponseEntity<?> update(@PathVariable Long rentId, @RequestBody @Valid RentRequestDTO rentRequestDTO) {
-        try {
             RentResponseDTO responseDTO = rentService.update(rentRequestDTO, rentId);
             return ResponseEntity.ok(responseDTO);
-        } catch (ReturnDateCannotBeNull e){
-            return ResponseEntity.badRequest().body("Message: " + e.getMessage());
-        }catch (DataDevolucaoActualInvalidException e){
-            return ResponseEntity.badRequest().body("Message: " + e.getMessage());
-        }
     }
 
 
