@@ -75,10 +75,10 @@ public class BookService {
                 });
     }
 
-    public void update(Long id, Book foundBook) {
+    public void update(Long id, Book book) {
         Book existingBook = verifyAndGetIfExists(id);
         // Atualize os campos relevantes do livro com base no foundBook
-        existingBook.setPublisher(foundBook.getPublisher());
+        existingBook.setPublisher(book.getPublisher());
         // Salve as alterações na base de dados
         bookRepository.save(existingBook);
     }

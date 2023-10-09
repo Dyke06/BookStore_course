@@ -1,7 +1,9 @@
 package com.BookStoreV1.BookStore.Service;
 
+import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
+import com.BookStoreV1.BookStore.Dto.RentUpdateDTO;
 import com.BookStoreV1.BookStore.Mapper.RentMapper;
 import com.BookStoreV1.BookStore.Model.Book;
 import com.BookStoreV1.BookStore.Model.Rent;
@@ -9,6 +11,7 @@ import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Rent.*;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +31,15 @@ public class RentService {
 
     private UserService userService;
 
-    public RentResponseDTO create(RentRequestDTO rentRequestDTO) {
+    public RentResponseDTO create(RentRequestDTO rentRequestDTO) throws EstoqueEsgotadoException {
         User foundUser = userService.verifyAndGetUser(rentRequestDTO.getUserId());
         Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
 
         verifyDataDevolucaoIsNull(rentRequestDTO.getData_devolucao());
         VerifyDataAluguel(rentRequestDTO);
         verifyDataPrevisao(rentRequestDTO);
+        verifyDataMonthPrevisao(rentRequestDTO);
+        VerifyStock(rentRequestDTO, foundBook);
 
         Rent rentToSave = rentMapper.toModel(rentRequestDTO);
         rentToSave.setUser(foundUser);
@@ -52,20 +57,19 @@ public class RentService {
 
         return rentResponseDTO;
     }
-    public RentResponseDTO update(RentRequestDTO rentRequestDTO, Long rentId) {
+
+
+
+    public RentResponseDTO update(RentUpdateDTO rentUpdateDTO, Long rentId) {
         Rent existingRent = VerifyAndGetIfExists(rentId);
 
-        User foundUser = userService.verifyAndGetUser(rentRequestDTO.getUserId());
-        Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
+        DataDevolucaoIsNotNull(rentUpdateDTO, existingRent);
 
-        DataDevolucaoIsNotNull(rentRequestDTO, existingRent);
-
-        VerifyDataDevolucaoActual(rentRequestDTO);
-
-        existingRent.setUser(foundUser);
-        existingRent.setBook(foundBook);
+        VerifyDataDevolucaoActual(rentUpdateDTO);
 
         Rent updatedRent = rentRepository.save(existingRent);
+
+        Book foundBook = existingRent.getBook();
 
         foundBook.setQuantidade(foundBook.getQuantidade() + 1);
         bookService.update(foundBook.getId(), foundBook);
@@ -113,20 +117,20 @@ public class RentService {
         }
     }
 
-    private static void VerifyDataDevolucaoActual(RentRequestDTO rentRequestDTO) {
+    private static void VerifyDataDevolucaoActual(RentUpdateDTO rentUpdateDTO) {
         LocalDate dataHoje = LocalDate.now();
-        LocalDate dataDevolucao = rentRequestDTO.getData_devolucao();
+        LocalDate dataDevolucao = rentUpdateDTO.getData_devolucao();
         if (!dataDevolucao.isEqual(dataHoje)) {
-            throw new DataDevolucaoActualInvalidException(rentRequestDTO);
+            throw new DataDevolucaoActualInvalidException(rentUpdateDTO);
         }
     }
 
-    private static void DataDevolucaoIsNotNull(RentRequestDTO rentRequestDTO, Rent existingRent) {
-        LocalDate dataDevolucao = rentRequestDTO.getData_devolucao();
+    private static void DataDevolucaoIsNotNull(RentUpdateDTO rentUpdateDTO, Rent existingRent) {
+        LocalDate dataDevolucao = rentUpdateDTO.getData_devolucao();
         if (dataDevolucao != null) {
             existingRent.setData_devolucao(dataDevolucao);
         } else {
-            throw new ReturnDateCannotBeNull(rentRequestDTO);
+            throw new ReturnDateCannotBeNull(rentUpdateDTO);
         }
     }
 
@@ -138,4 +142,25 @@ public class RentService {
             throw new DataPrevisaoInvalidException(rentRequestDTO);
         }
     }
+
+    private static void verifyDataMonthPrevisao(RentRequestDTO rentRequestDTO) {
+        LocalDate dataAluguel = rentRequestDTO.getData_aluguel();
+        LocalDate dataPrevisao = rentRequestDTO.getData_previsao();
+
+        // Calcule a data 1 mês após a data de aluguel
+        LocalDate umMesDepois = dataAluguel.plusMonths(1);
+
+        if (dataPrevisao.isAfter(umMesDepois)){
+            throw new DataPrevisaoMonthException(rentRequestDTO);
+        }
+    }
+
+    private static void VerifyStock(RentRequestDTO rentRequestDTO, Book foundBook) {
+        int quantidadeLivro = foundBook.getQuantidade();
+
+        if (quantidadeLivro == 0) {
+            throw new EstoqueEsgotadoException(rentRequestDTO);
+        }
+    }
+
 }

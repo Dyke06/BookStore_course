@@ -1,5 +1,6 @@
 package com.BookStoreV1.BookStore.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookRequestDTO {
-
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @NotNull
@@ -26,9 +27,6 @@ public class BookRequestDTO {
 
     @NotNull
     private LocalDate lancamento;
-
-    @NotNull
-    private Integer totalalugado;
 
     @NotNull
     @Min(1)

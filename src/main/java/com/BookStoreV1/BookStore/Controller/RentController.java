@@ -1,9 +1,6 @@
 package com.BookStoreV1.BookStore.Controller;
 
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
-import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
-import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
-import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
+import com.BookStoreV1.BookStore.Dto.*;
 import com.BookStoreV1.BookStore.Service.RentService;
 import com.BookStoreV1.BookStore.Validation.Rent.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +38,8 @@ public class RentController implements RentControllerDocs {
     }
 
     @PutMapping("/{rentId}")
-    public ResponseEntity<?> update(@PathVariable Long rentId, @RequestBody @Valid RentRequestDTO rentRequestDTO) {
-            RentResponseDTO responseDTO = rentService.update(rentRequestDTO, rentId);
+    public ResponseEntity<?> update(@PathVariable Long rentId, @RequestBody @Valid RentUpdateDTO rentUpdateDTO) {
+            RentResponseDTO responseDTO = rentService.update(rentUpdateDTO, rentId);
             return ResponseEntity.ok(responseDTO);
     }
 
