@@ -1,4 +1,4 @@
-package com.BookStoreV1.BookStore.exceptions;
+package com.BookStoreV1.BookStore.Exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

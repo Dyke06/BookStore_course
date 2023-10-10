@@ -2,6 +2,7 @@ package com.BookStoreV1.BookStore.Dto;
 
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PublisherDTO {
-
+    @ApiModelProperty(hidden = true)
     private long id;
 
     @NotNull

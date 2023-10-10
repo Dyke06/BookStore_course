@@ -1,7 +1,7 @@
 package com.BookStoreV1.BookStore.Controller;
 
 import com.BookStoreV1.BookStore.Service.BookService;
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
+import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,24 +17,24 @@ public class BookController implements BookControllerDocs {
     private BookService bookService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookResponseDTO create(@RequestBody @Valid BookRequestDTO bookRequestDTO) {
-        return bookService.create(bookRequestDTO);
+    public BookResponseDTO create(@RequestBody @Valid RequestBookDTO requestBookDTO) {
+        return bookService.create(requestBookDTO);
     }
-    @GetMapping("/{bookId}")
-    public BookResponseDTO findById(@PathVariable Long bookId) {
-        return bookService.findById(bookId);
+    @GetMapping("/{id}")
+    public BookResponseDTO findById(@PathVariable Long id) {
+        return bookService.findById(id);
     }
     @GetMapping
     public List<BookResponseDTO> findAll() {
         return bookService.findAll();
     }
-    @DeleteMapping("/{bookId}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long bookId) {
-        bookService.delete(bookId);
+    public void delete(@PathVariable Long id) {
+        bookService.delete(id);
     }
-    @PutMapping("/{bookId}")
-    public BookResponseDTO update(@PathVariable  Long bookId,@RequestBody @Valid BookRequestDTO bookRequestDTO) {
-        return bookService.update(bookId, bookRequestDTO);
+    @PutMapping("/{id}")
+    public BookResponseDTO update(@PathVariable Long id, @RequestBody @Valid RequestBookDTO requestBookDTO) {
+        return bookService.update(id, requestBookDTO);
     }
 }

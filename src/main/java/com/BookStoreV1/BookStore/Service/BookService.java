@@ -1,15 +1,20 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
+import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
+import com.BookStoreV1.BookStore.Model.Rent;
+import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Book.BookAlreadyExistsException;
+import com.BookStoreV1.BookStore.Validation.Book.BookHasRentsException;
 import com.BookStoreV1.BookStore.Validation.Book.BookNotFoundExeption;
 import com.BookStoreV1.BookStore.Mapper.BookMapper;
 import com.BookStoreV1.BookStore.Model.Book;
 import com.BookStoreV1.BookStore.Repository.BookRepository;
 import com.BookStoreV1.BookStore.Model.Publisher;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +28,15 @@ public class BookService {
 
     private BookRepository bookRepository;
 
+    private RentRepository rentRepository;
+
     private PublisherService publisherService;
 
-    public BookResponseDTO create(BookRequestDTO bookRequestDTO){
-        verifyIfBookAlreadyRegistred(bookRequestDTO);
-        Publisher foundPublisher = publisherService.verifyGetIfExists(bookRequestDTO.getPublisherId());
+    public BookResponseDTO create(RequestBookDTO requestBookDTO){
+        verifyIfBookAlreadyRegistred(requestBookDTO);
+        Publisher foundPublisher = publisherService.verifyGetIfExists(requestBookDTO.getPublisherId());
 
-       Book bookToSave = bookMapper.toModel(bookRequestDTO);
+       Book bookToSave = bookMapper.toModel(requestBookDTO);
        bookToSave.setPublisher(foundPublisher);
        Book savedBook = bookRepository.save(bookToSave);
        return bookMapper.toDTO(savedBook);
@@ -42,44 +49,53 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public BookResponseDTO findById(Long bookId){
-        return bookRepository.findById(bookId)
+    public BookResponseDTO findById(Long id){
+        return bookRepository.findById(id)
                 .map(bookMapper::toDTO)
-                .orElseThrow(() -> new BookNotFoundExeption(bookId));
+                .orElseThrow(() -> new BookNotFoundExeption(id));
     }
 
-    public void delete(Long bookId){
-        Book foundBookDelete = verifyAndGetIfExists(bookId);
+    @SneakyThrows
+    public void delete(Long id){
+        Book foundBookDelete = verifyAndGetIfExists(id);
+        // Verificar se o livro está associado a algum aluguel
+        if (hasRentsForBook(id)) {
+            throw new BookHasRentsException(id);
+        }
         bookRepository.deleteById(foundBookDelete.getId());
     }
 
-    public BookResponseDTO update(Long bookId, BookRequestDTO bookRequestDTO){
-        Book foundBook = verifyAndGetIfExists(bookId);
-        Publisher foundPublisher = publisherService.verifyGetIfExists(bookRequestDTO.getPublisherId());
+    public boolean hasRentsForBook(Long id) {
+        List<Rent> rents = rentRepository.findByBookId(id);
+        return !rents.isEmpty();
+    }
 
-        Book bookUpdate = bookMapper.toModel(bookRequestDTO);
+    public BookResponseDTO update(Long id, RequestBookDTO requestBookDTO){
+        Book foundBook = verifyAndGetIfExists(id);
+        Publisher foundPublisher = publisherService.verifyGetIfExists(requestBookDTO.getPublisherId());
+
+        Book bookUpdate = bookMapper.toModel(requestBookDTO);
         bookUpdate.setId(foundBook.getId());
         bookUpdate.setPublisher(foundPublisher);
         Book updateBook = bookRepository.save(bookUpdate);
         return bookMapper.toDTO(updateBook);
     }
 
-    public Book verifyAndGetIfExists(Long bookId) {
-        return bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundExeption(bookId));
+    public Book verifyAndGetIfExists(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundExeption(id));
     }
 
-    private void verifyIfBookAlreadyRegistred(BookRequestDTO bookRequestDTO) {
-        bookRepository.findByNome(bookRequestDTO.getNome())
-                .ifPresent(duplicatedBook -> {throw new BookAlreadyExistsException(bookRequestDTO.getNome());
+    private void verifyIfBookAlreadyRegistred(RequestBookDTO requestBookDTO) {
+        bookRepository.findByNome(requestBookDTO.getNome())
+                .ifPresent(duplicatedBook -> {throw new BookAlreadyExistsException(requestBookDTO.getNome());
                 });
     }
 
     public void update(Long id, Book book) {
         Book existingBook = verifyAndGetIfExists(id);
-        // Atualize os campos relevantes do livro com base no foundBook
         existingBook.setPublisher(book.getPublisher());
-        // Salve as alterações na base de dados
+
         bookRepository.save(existingBook);
     }
 }

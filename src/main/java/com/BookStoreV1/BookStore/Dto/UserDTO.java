@@ -1,5 +1,6 @@
 package com.BookStoreV1.BookStore.Dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.lang.annotation.Native;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-
+    @ApiModelProperty(hidden = true)
     private long id;
 
     @NotNull

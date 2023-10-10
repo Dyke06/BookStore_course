@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RentUpdateDTO {
-    private long id;
 
     @NotNull
     private LocalDate data_devolucao;

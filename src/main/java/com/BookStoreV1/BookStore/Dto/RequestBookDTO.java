@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookRequestDTO {
+public class RequestBookDTO {
     @ApiModelProperty(hidden = true)
     private Long id;
 

@@ -1,4 +1,5 @@
-package com.BookStoreV1.BookStore.exceptions;
+package com.BookStoreV1.BookStore.Exception;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 // Importar http, validation, bind, context e servlet
@@ -52,9 +53,14 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler{
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return buildResponseEntity(HttpStatus.BAD_REQUEST,
-                "Malformed JSON body and/or field error",
-                Collections.singletonList(exception.getLocalizedMessage()));
+        Throwable mostSpecificCause = exception.getMostSpecificCause();
+        if (mostSpecificCause instanceof DateTimeParseException) {
+            String errorMessage = "Data inválida. Por favor, forneça uma data no formato correto.";
+            List<String> errors = Collections.singletonList(errorMessage);
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Malformed JSON body and/or field error", errors);
+        }
+
+        return super.handleHttpMessageNotReadable(exception, headers, status, request);
     }
 
     private ResponseEntity<Object> buildResponseEntity(HttpStatus httpStatus, String message, List<String> errors) {

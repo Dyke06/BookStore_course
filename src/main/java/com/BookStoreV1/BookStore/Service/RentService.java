@@ -1,6 +1,5 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentRequestDTO;
 import com.BookStoreV1.BookStore.Dto.RentResponseDTO;
 import com.BookStoreV1.BookStore.Dto.RentUpdateDTO;
@@ -11,8 +10,8 @@ import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Rent.*;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,11 +23,12 @@ import java.util.stream.Collectors;
 public class RentService {
 
     private final RentMapper rentMapper = RentMapper.INSTANCE;
-
-    private RentRepository rentRepository;
+    @Lazy
+    private final RentRepository rentRepository;
 
     private BookService bookService;
 
+    @Lazy
     private UserService userService;
 
     public RentResponseDTO create(RentRequestDTO rentRequestDTO) throws EstoqueEsgotadoException {
@@ -58,17 +58,13 @@ public class RentService {
         return rentResponseDTO;
     }
 
-
-
-    public RentResponseDTO update(RentUpdateDTO rentUpdateDTO, Long rentId) {
-        Rent existingRent = VerifyAndGetIfExists(rentId);
+    public RentResponseDTO update(RentUpdateDTO rentUpdateDTO, Long id) {
+        Rent existingRent = VerifyAndGetIfExists(id);
 
         DataDevolucaoIsNotNull(rentUpdateDTO, existingRent);
-
         VerifyDataDevolucaoActual(rentUpdateDTO);
 
         Rent updatedRent = rentRepository.save(existingRent);
-
         Book foundBook = existingRent.getBook();
 
         foundBook.setQuantidade(foundBook.getQuantidade() + 1);
@@ -86,21 +82,21 @@ public class RentService {
                 .collect(Collectors.toList());
     }
 
-    public RentResponseDTO findById(Long rentId){
-        return rentRepository.findById(rentId)
+    public RentResponseDTO findById(Long id){
+        return rentRepository.findById(id)
                 .map(rentMapper::toDTO)
-                .orElseThrow(() -> new RentNotFoundException(rentId));
+                .orElseThrow(() -> new RentNotFoundException(id));
     }
 
-    public void delete(Long rentId){
-        Rent FoundRent = rentRepository.findById(rentId)
-                .orElseThrow(() -> new RentNotFoundException(rentId));
+    public void delete(Long id){
+        Rent FoundRent = rentRepository.findById(id)
+                .orElseThrow(() -> new RentNotFoundException(id));
         rentRepository.deleteById(FoundRent.getId());
     }
 
-    public Rent VerifyAndGetIfExists(Long rentId) {
-        return rentRepository.findById(rentId)
-                .orElseThrow(() -> new RentNotFoundException(rentId));
+    public Rent VerifyAndGetIfExists(Long id) {
+        return rentRepository.findById(id)
+                .orElseThrow(() -> new RentNotFoundException(id));
     }
 
     public void verifyDataDevolucaoIsNull(LocalDate dataDevolucao) {
@@ -161,6 +157,11 @@ public class RentService {
         if (quantidadeLivro == 0) {
             throw new EstoqueEsgotadoException(rentRequestDTO);
         }
+    }
+
+    public boolean hasRentsForUser(Long userId) {
+        List<Rent> rents = rentRepository.findByUserId(userId);
+        return !rents.isEmpty();
     }
 
 }

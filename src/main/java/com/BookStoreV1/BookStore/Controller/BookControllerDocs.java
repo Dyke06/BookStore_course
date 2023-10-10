@@ -1,11 +1,8 @@
 package com.BookStoreV1.BookStore.Controller;
 
-import com.BookStoreV1.BookStore.Dto.BookRequestDTO;
+import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public interface BookControllerDocs {
             @ApiResponse(code = 201, message = "Success book creation"),
             @ApiResponse(code = 400, message = "Missing required, wrong field range value or boook already registred system")
     })
-    BookResponseDTO create(BookRequestDTO bookRequestDTO);
+    BookResponseDTO create(RequestBookDTO requestBookDTO);
 
     @ApiOperation(value = "Book find by id operation")
     @ApiResponses(value = {
@@ -46,5 +43,6 @@ public interface BookControllerDocs {
             @ApiResponse(code = 404, message = "Book error update")
     })
 
-    BookResponseDTO update(Long bookId, BookRequestDTO bookRequestDTO);
+    BookResponseDTO update(@ApiParam(value = "Id", required = true) Long bookId,
+                           RequestBookDTO requestBookDTO);
 }

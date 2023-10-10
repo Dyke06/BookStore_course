@@ -45,13 +45,10 @@ public class PublisherService {
     }
 
     public PublisherDTO update(Long id, PublisherDTO updatedPublisherDTO) {
-        Publisher existingPublisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new PublisherNotFoundException(id));
-        if (updatedPublisherDTO.getNome() != null) {
-            existingPublisher.setNome(updatedPublisherDTO.getNome());
-            existingPublisher.setCidade(updatedPublisherDTO.getCidade());
-        }
-        Publisher updatedPublisher = publisherRepository.save(existingPublisher);
+        Publisher foundPublisher = verifyGetIfExists(id);
+        updatedPublisherDTO.setId(foundPublisher.getId());
+        Publisher publisherUpdate = publisherMapper.toModel(updatedPublisherDTO);
+        Publisher updatedPublisher = publisherRepository.save(publisherUpdate);
         return publisherMapper.toDTO(updatedPublisher);
     }
 

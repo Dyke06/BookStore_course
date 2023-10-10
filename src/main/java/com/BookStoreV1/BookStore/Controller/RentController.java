@@ -4,6 +4,7 @@ import com.BookStoreV1.BookStore.Dto.*;
 import com.BookStoreV1.BookStore.Service.RentService;
 import com.BookStoreV1.BookStore.Validation.Rent.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.concurrent.RecursiveTask;
 @RequestMapping("api/rent")
 public class RentController implements RentControllerDocs {
     @Autowired
+    @Lazy
     private RentService rentService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,19 +29,19 @@ public class RentController implements RentControllerDocs {
     public List<RentResponseDTO> findALL() {
         return rentService.findALL();
     }
-    @GetMapping("/{rentId}")
-    public RentResponseDTO findById(@PathVariable Long rentId) {
-        return rentService.findById(rentId);
+    @GetMapping("/{id}")
+    public RentResponseDTO findById(@PathVariable Long id) {
+        return rentService.findById(id);
     }
-    @DeleteMapping("/{rentId}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long rentId) {
-        rentService.delete(rentId);
+    public void delete(@PathVariable Long id) {
+        rentService.delete(id);
     }
 
-    @PutMapping("/{rentId}")
-    public ResponseEntity<?> update(@PathVariable Long rentId, @RequestBody @Valid RentUpdateDTO rentUpdateDTO) {
-            RentResponseDTO responseDTO = rentService.update(rentUpdateDTO, rentId);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid RentUpdateDTO rentUpdateDTO) {
+            RentResponseDTO responseDTO = rentService.update(rentUpdateDTO, id);
             return ResponseEntity.ok(responseDTO);
     }
 

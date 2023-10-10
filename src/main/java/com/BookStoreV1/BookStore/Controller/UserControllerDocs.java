@@ -1,6 +1,5 @@
 package com.BookStoreV1.BookStore.Controller;
 
-import com.BookStoreV1.BookStore.Dto.MessageDTO;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +16,7 @@ public interface UserControllerDocs {
             @ApiResponse(code = 201, message = "Success User creation"),
             @ApiResponse(code = 400, message = "Missing required fields, wrong field range value or User already registered on system")
     })
-    MessageDTO create(UserDTO userToCreateDTo);
+    UserDTO create(UserDTO userToCreateDTo);
     @ApiOperation(value = "Find User by id operation")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success User found"),
@@ -46,6 +45,5 @@ public interface UserControllerDocs {
             @ApiResponse(code = 200, message = "Success User Update"),
             @ApiResponse(code = 404, message = "User not found error code")
     })
-
-    MessageDTO update(Long id,UserDTO userToUpdateDTo);
+    UserDTO update(Long id,UserDTO userToUpdateDTo);
 }

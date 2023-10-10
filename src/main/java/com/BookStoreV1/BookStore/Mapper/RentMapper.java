@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface RentMapper {
     RentMapper INSTANCE = Mappers.getMapper(RentMapper.class);
-
+    @Mapping(target = "id", ignore = true)
     Rent toModel(RentRequestDTO rentRequestDTO);
 
     Rent toModel(RentResponseDTO rentResponseDTO);

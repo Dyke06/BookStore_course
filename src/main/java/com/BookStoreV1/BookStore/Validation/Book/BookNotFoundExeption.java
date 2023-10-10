@@ -3,7 +3,7 @@ package com.BookStoreV1.BookStore.Validation.Book;
 import javax.persistence.EntityNotFoundException;
 
 public class BookNotFoundExeption extends EntityNotFoundException {
-    public BookNotFoundExeption(Long bookId) {
-        super(String.format("Book with id %s not exists", bookId));
+    public BookNotFoundExeption(Long id) {
+        super(String.format("Livro com id %s não existe", id));
     }
 }

@@ -4,6 +4,6 @@ import javax.persistence.EntityNotFoundException;
 
 public class RentNotFoundException extends EntityNotFoundException {
     public RentNotFoundException(Long rentId) {
-        super(String.format("rent with id %s not exists", rentId));
+        super(String.format("rent com id %s não existe", rentId));
     }
 }

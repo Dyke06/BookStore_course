@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class BookAlreadyExistsException extends EntityExistsException {
     public BookAlreadyExistsException(String nome){
-        super(String.format("Book with name %s already registred!", nome));
+        super(String.format("Livro com nome %s ja estar registrado!", nome));
     }
 }

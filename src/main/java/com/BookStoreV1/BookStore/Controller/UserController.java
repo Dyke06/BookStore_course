@@ -1,7 +1,6 @@
 package com.BookStoreV1.BookStore.Controller;
 
 import com.BookStoreV1.BookStore.Service.UserService;
-import com.BookStoreV1.BookStore.Dto.MessageDTO;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
 import com.BookStoreV1.BookStore.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ public class UserController implements UserControllerDocs {
     private UserRepository userRepository;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageDTO create(@RequestBody @Valid UserDTO userToCreateDTo) {
-        return userService.create(userToCreateDTo);
+    public UserDTO create(@RequestBody @Valid UserDTO userDTO) {
+        return userService.create(userDTO);
     }
     @GetMapping("/{id}")
     public UserDTO findById(@PathVariable Long id) {
@@ -32,8 +31,8 @@ public class UserController implements UserControllerDocs {
         return userService.findALL();
     }
     @PutMapping("/{id}")
-    public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTo) {
-        return userService.update(id, userToUpdateDTo);
+    public UserDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) {
+        return userService.update(id, userDTO);
     }
 
     @DeleteMapping("/{id}")
