@@ -3,6 +3,7 @@ package com.BookStoreV1.BookStore.Mapper;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
 import com.BookStoreV1.BookStore.Model.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 

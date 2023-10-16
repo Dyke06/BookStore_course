@@ -14,9 +14,9 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 30, nullable = false)
-    private String nome;
+    private String name;
     @Column(length = 30, nullable = false)
-    private String cidade;
+    private String city;
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
     private List<Book> books;

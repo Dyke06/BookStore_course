@@ -13,12 +13,12 @@ public class Rent {
     private long id;
 
     @Column(nullable = false)
-    private LocalDate data_aluguel;
+    private LocalDate dateRent;
 
     @Column(nullable = false)
-    private LocalDate data_previsao;
+    private LocalDate dateForecast;
 
-    private LocalDate data_devolucao;
+    private LocalDate dateReturn;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private User user;

@@ -10,22 +10,25 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.ZoneId;
+
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class RentRequestDTO {
-
-
-    @NotNull
-    private LocalDate data_aluguel;
-    @NotNull
-    private LocalDate data_previsao;
     @ApiModelProperty(hidden = true)
-    private LocalDate data_devolucao;
+    private LocalDate dateRent;
+
+    @NotNull
+    private LocalDate dateForecast;
+
+    @ApiModelProperty(hidden = true)
+    private LocalDate dateReturn;
 
     @NotNull
     private Long userId;
 
     @NotNull
     private Long bookId;
+
+
 }

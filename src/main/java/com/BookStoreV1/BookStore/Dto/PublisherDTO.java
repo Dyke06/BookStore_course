@@ -20,11 +20,11 @@ public class PublisherDTO {
     @NotNull
     @NotEmpty
     @Size(max = 35)
-    private String nome;
+    private String name;
 
     @NotNull
     @NotEmpty
     @Size(max = 35)
-    private String cidade;
+    private String city;
 
 }

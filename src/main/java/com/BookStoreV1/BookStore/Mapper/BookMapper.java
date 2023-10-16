@@ -4,6 +4,7 @@ import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
 import com.BookStoreV1.BookStore.Model.Book;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper

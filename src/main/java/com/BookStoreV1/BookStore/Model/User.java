@@ -14,11 +14,11 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 30, nullable = false)
-    private String nome;
+    private String name;
     @Column(length = 30, nullable = false)
-    private String endereco;
+    private String address;
     @Column(length = 30, nullable = false)
-    private String cidade;
+    private String city;
     @Column(length = 30, nullable = false, unique = true)
     private String email;
 

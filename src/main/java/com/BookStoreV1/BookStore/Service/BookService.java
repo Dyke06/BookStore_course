@@ -6,6 +6,7 @@ import com.BookStoreV1.BookStore.Model.Rent;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Book.BookAlreadyExistsException;
 import com.BookStoreV1.BookStore.Validation.Book.BookHasRentsException;
+import com.BookStoreV1.BookStore.Validation.Book.BookLaunchExcption;
 import com.BookStoreV1.BookStore.Validation.Book.BookNotFoundExeption;
 import com.BookStoreV1.BookStore.Mapper.BookMapper;
 import com.BookStoreV1.BookStore.Model.Book;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,13 @@ public class BookService {
     private PublisherService publisherService;
 
     public BookResponseDTO create(RequestBookDTO requestBookDTO){
+        if (!isValidYear(requestBookDTO.getLaunch())) {
+            try {
+                throw new BookLaunchExcption(requestBookDTO);
+            } catch (BookLaunchExcption e) {
+                throw new RuntimeException(e);
+            }
+        }
         verifyIfBookAlreadyRegistred(requestBookDTO);
         Publisher foundPublisher = publisherService.verifyGetIfExists(requestBookDTO.getPublisherId());
 
@@ -58,7 +68,6 @@ public class BookService {
     @SneakyThrows
     public void delete(Long id){
         Book foundBookDelete = verifyAndGetIfExists(id);
-        // Verificar se o livro está associado a algum aluguel
         if (hasRentsForBook(id)) {
             throw new BookHasRentsException(id);
         }
@@ -87,8 +96,8 @@ public class BookService {
     }
 
     private void verifyIfBookAlreadyRegistred(RequestBookDTO requestBookDTO) {
-        bookRepository.findByNome(requestBookDTO.getNome())
-                .ifPresent(duplicatedBook -> {throw new BookAlreadyExistsException(requestBookDTO.getNome());
+        bookRepository.findByName(requestBookDTO.getName())
+                .ifPresent(duplicatedBook -> {throw new BookAlreadyExistsException(requestBookDTO.getName());
                 });
     }
 
@@ -97,5 +106,13 @@ public class BookService {
         existingBook.setPublisher(book.getPublisher());
 
         bookRepository.save(existingBook);
+    }
+
+    private boolean isValidYear(Integer year) {
+        if (year == null) {
+            return false;
+        }
+        int currentYear = Year.now().getValue();
+        return year >= 1000 && year <= currentYear;
     }
 }

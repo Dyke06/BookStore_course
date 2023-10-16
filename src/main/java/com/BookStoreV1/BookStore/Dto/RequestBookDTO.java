@@ -18,19 +18,19 @@ public class RequestBookDTO {
     @NotNull
     @NotEmpty
     @Size(max = 30)
-    private String nome;
+    private String name;
 
     @NotNull
     @NotEmpty
     @Size(max = 30)
-    private String autor;
+    private String author;
 
     @NotNull
-    private LocalDate lancamento;
+    private Integer launch;
 
     @NotNull
     @Min(1)
-    private Integer quantidade;
+    private Integer amount;
 
     @NotNull
     private Long publisherId;

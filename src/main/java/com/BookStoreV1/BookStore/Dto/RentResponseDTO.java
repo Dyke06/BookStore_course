@@ -13,11 +13,11 @@ public class RentResponseDTO {
 
     private long id;
 
-    private LocalDate data_aluguel;
+    private LocalDate dateRent;
 
-    private LocalDate data_previsao;
+    private LocalDate dateForecast;
 
-    private LocalDate data_devolucao;
+    private LocalDate dateReturn;
 
     private UserDTO user;
 

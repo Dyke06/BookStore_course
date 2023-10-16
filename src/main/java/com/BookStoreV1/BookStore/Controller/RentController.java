@@ -40,8 +40,8 @@ public class RentController implements RentControllerDocs {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid RentUpdateDTO rentUpdateDTO) {
-            RentResponseDTO responseDTO = rentService.update(rentUpdateDTO, id);
+    public ResponseEntity<?> update(@PathVariable Long id) {
+            RentResponseDTO responseDTO = rentService.update(id);
             return ResponseEntity.ok(responseDTO);
     }
 

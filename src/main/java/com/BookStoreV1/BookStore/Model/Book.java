@@ -15,19 +15,19 @@ public class Book {
     private Long id;
 
     @Column(length = 30, nullable = false)
-    private String nome;
+    private String name;
 
     @Column(length = 30, nullable = false)
-    private String autor;
+    private String author;
 
     @Column(length = 4, nullable = false)
-    private LocalDate lancamento;
+    private Integer launch;
 
     @Column(length = 6, nullable = false)
-    private int totalalugado;
+    private int totalRent;
 
     @Column(length = 6, nullable = false)
-    private int quantidade;
+    private int amount;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Publisher publisher;

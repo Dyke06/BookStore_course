@@ -20,17 +20,17 @@ public class UserDTO {
     @NotNull
     @NotEmpty
     @Size(max = 35)
-    private String nome;
+    private String name;
 
     @NotNull
     @NotEmpty
     @Size(max = 35)
-    private String endereco;
+    private String address;
 
     @NotNull
     @NotEmpty(message = "A cidade não pode ser vazio.")
     @Size(max = 35)
-    private String cidade;
+    private String city;
 
     @NotNull
     @Email(message = "Informe um email valido.")

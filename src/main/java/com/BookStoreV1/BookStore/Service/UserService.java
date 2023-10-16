@@ -1,5 +1,8 @@
 package com.BookStoreV1.BookStore.Service;
 
+import com.BookStoreV1.BookStore.Model.Rent;
+import com.BookStoreV1.BookStore.Repository.RentRepository;
+import com.BookStoreV1.BookStore.Validation.User.EmailAlreadyExistsException;
 import com.BookStoreV1.BookStore.Validation.User.RelatedUserRent;
 import com.BookStoreV1.BookStore.Validation.User.UserAlreadExistsException;
 import com.BookStoreV1.BookStore.Dto.UserDTO;
@@ -8,6 +11,7 @@ import com.BookStoreV1.BookStore.Repository.UserRepository;
 import com.BookStoreV1.BookStore.Mapper.UserMapper;
 import com.BookStoreV1.BookStore.Validation.User.UserNotFoundException;
 import lombok.SneakyThrows;
+import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -24,8 +28,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    @Lazy
-    private RentService rentService;
+    private RentRepository rentRepository;
+
 
     public UserDTO create(UserDTO userDTO){
         VerifyExistss(userDTO.getEmail());
@@ -34,8 +38,16 @@ public class UserService {
         return userMapper.toDto(createdUser);
     }
 
+    @SneakyThrows
     public UserDTO update(Long id, UserDTO userDTO){
         User foundUser = verifyAndGetUser(id);
+
+        if (userRepository.existsByEmailAndIdNot(userDTO.getEmail(), id)) {
+            throw new EmailAlreadyExistsException();
+        }
+
+        foundUser.setName(userDTO.getName());
+        foundUser.setEmail(userDTO.getEmail());
 
         userDTO.setId(foundUser.getId());
         User userToUpdate = userMapper.toModel(userDTO);
@@ -57,11 +69,16 @@ public class UserService {
 
     @SneakyThrows
     public void delete(Long id){
-        verifyAndGetUser(id);
-        if (rentService.hasRentsForUser(id)) {
-            throw new RelatedUserRent(id);
+        User foundUserDelete = verifyAndGetUser(id);
+        if (hasRentsForUser(id)) {
+            throw new RelatedUserRent(foundUserDelete.getId());
         }
         userRepository.deleteById(id);
+    }
+
+    public boolean hasRentsForUser (Long id) {
+        List<Rent> rents = rentRepository.findByUserId(id);
+        return !rents.isEmpty();
     }
 
     private void VerifyExistss(String email) {

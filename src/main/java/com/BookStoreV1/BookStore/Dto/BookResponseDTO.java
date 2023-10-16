@@ -13,15 +13,15 @@ public class BookResponseDTO {
 
     private Long id;
 
-    private String nome;
+    private String name;
 
-    private String autor;
+    private String author;
 
-    private LocalDate lancamento;
+    private Integer launch;
 
-    private Integer totalalugado;
+    private Integer totalRent;
 
-    private Integer quantidade;
+    private Integer amount;
 
     private PublisherDTO publisher;
 
