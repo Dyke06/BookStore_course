@@ -19,6 +19,8 @@ public class RentResponseDTO {
 
     private LocalDate dateReturn;
 
+    private String status;
+
     private UserDTO user;
 
     private BookResponseDTO book;

@@ -15,6 +15,10 @@ import java.time.ZoneId;
 @Data
 @AllArgsConstructor
 public class RentRequestDTO {
+
+    @ApiModelProperty(hidden = true)
+    private long id;
+
     @ApiModelProperty(hidden = true)
     private LocalDate dateRent;
 
@@ -23,6 +27,9 @@ public class RentRequestDTO {
 
     @ApiModelProperty(hidden = true)
     private LocalDate dateReturn;
+
+    @ApiModelProperty(hidden = true)
+    private String status;
 
     @NotNull
     private Long userId;

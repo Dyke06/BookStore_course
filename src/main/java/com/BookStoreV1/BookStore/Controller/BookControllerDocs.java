@@ -6,7 +6,7 @@ import io.swagger.annotations.*;
 
 import java.util.List;
 
-@Api(tags = "Books")
+@Api(tags = "Books-controller")
 public interface BookControllerDocs {
     @ApiOperation(value = "Book creation operation")
     @ApiResponses(value = {

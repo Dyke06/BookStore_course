@@ -23,7 +23,7 @@ public class UserDTO {
     private String name;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "O endereço não pode ser vazio.")
     @Size(max = 35)
     private String address;
 

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 
 
-@Api(tags = "Users")
+@Api(tags = "Users-controller")
 public interface UserControllerDocs {
     @ApiOperation(value = "User creation operation")
     @ApiResponses(value = {

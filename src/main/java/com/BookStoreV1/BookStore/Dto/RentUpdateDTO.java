@@ -18,5 +18,7 @@ public class RentUpdateDTO {
 
     @ApiModelProperty(hidden = true)
     private LocalDate dateReturn;
+    @ApiModelProperty(hidden = true)
+    private String status;
 
 }

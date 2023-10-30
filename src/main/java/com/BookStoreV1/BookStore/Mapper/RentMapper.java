@@ -17,7 +17,7 @@ public interface RentMapper {
     Rent toModel(RentResponseDTO rentResponseDTO);
 
     Rent toModel(RentUpdateDTO rentUpdateDTO);
-
+    @Mapping(source = "status", target = "status")
     RentResponseDTO toDTO(Rent rent);
 }
 

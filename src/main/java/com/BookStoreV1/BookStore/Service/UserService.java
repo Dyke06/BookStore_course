@@ -41,14 +41,12 @@ public class UserService {
     @SneakyThrows
     public UserDTO update(Long id, UserDTO userDTO){
         User foundUser = verifyAndGetUser(id);
-
         if (userRepository.existsByEmailAndIdNot(userDTO.getEmail(), id)) {
             throw new EmailAlreadyExistsException();
         }
 
         foundUser.setName(userDTO.getName());
         foundUser.setEmail(userDTO.getEmail());
-
         userDTO.setId(foundUser.getId());
         User userToUpdate = userMapper.toModel(userDTO);
         User updateUser = userRepository.save(userToUpdate);

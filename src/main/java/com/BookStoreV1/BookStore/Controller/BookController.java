@@ -28,13 +28,18 @@ public class BookController implements BookControllerDocs {
     public List<BookResponseDTO> findAll() {
         return bookService.findAll();
     }
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        bookService.delete(id);
+    @GetMapping("/most-rented")
+    public List<BookResponseDTO> findMostRentedBooks() {
+        List<BookResponseDTO> mostRentedBooks = bookService.findMostRentedBooks();
+        return mostRentedBooks;
     }
     @PutMapping("/{id}")
     public BookResponseDTO update(@PathVariable Long id, @RequestBody @Valid RequestBookDTO requestBookDTO) {
         return bookService.update(id, requestBookDTO);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        bookService.delete(id);
     }
 }

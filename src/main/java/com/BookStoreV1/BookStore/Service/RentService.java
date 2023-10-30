@@ -37,6 +37,9 @@ public class RentService {
         if (rentRequestDTO.getDateRent() == null) {
             rentRequestDTO.setDateRent(LocalDate.now());
         }
+        if (rentRepository.existsByUserIdAndBookId(rentRequestDTO.getUserId(), rentRequestDTO.getBookId())) {
+            throw new RentUserBook();
+        }
         User foundUser = userService.verifyAndGetUser(rentRequestDTO.getUserId());
         Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
 
@@ -48,12 +51,11 @@ public class RentService {
         Rent rentToSave = rentMapper.toModel(rentRequestDTO);
         rentToSave.setUser(foundUser);
         rentToSave.setBook(foundBook);
+        rentToSave.setStatus("Pendente");
 
         Rent savedRent = rentRepository.save(rentToSave);
-
         foundBook.setAmount(foundBook.getAmount() - 1);
         bookService.update(foundBook.getId(), foundBook);
-
         foundBook.setTotalRent(foundBook.getTotalRent() + 1);
         bookService.update(foundBook.getId(), foundBook);
 
@@ -66,16 +68,11 @@ public class RentService {
         Rent existingRent = VerifyAndGetIfExists(id);
 
         RentReturned(existingRent);
-
-        if (rentUpdateDTO.getDateReturn() == null) {
-            existingRent.setDateReturn(LocalDate.now());
-        } else {
-            existingRent.setDateReturn(rentUpdateDTO.getDateReturn());
-        }
+        VerifyIfDateReturnNULL(existingRent);
+        VerifyStatus(existingRent);
 
         Rent updatedRent = rentRepository.save(existingRent);
         Book foundBook = existingRent.getBook();
-
         foundBook.setAmount(foundBook.getAmount() + 1);
         bookService.update(foundBook.getId(), foundBook);
 
@@ -84,9 +81,9 @@ public class RentService {
         return rentResponseDTO;
     }
 
+
     private static void RentReturned(Rent existingRent) {
         if (existingRent.getDateReturn() != null) {
-            // A data de retorno já está preenchida, portanto, o livro já foi devolvido
             throw new RentReturnedException(existingRent);
         }
     }
@@ -104,10 +101,16 @@ public class RentService {
                 .orElseThrow(() -> new RentNotFoundException(id));
     }
 
-    public void delete(Long id){
-        Rent FoundRent = rentRepository.findById(id)
-                .orElseThrow(() -> new RentNotFoundException(id));
-        rentRepository.deleteById(FoundRent.getId());
+    public long countPendentes() {
+        return rentRepository.countPendentes();
+    }
+
+    public long countNoPrazo() {
+        return rentRepository.countNoPrazo();
+    }
+
+    public long countAtrasado() {
+        return rentRepository.countAtrasado();
     }
 
     public Rent VerifyAndGetIfExists(Long id) {
@@ -118,6 +121,14 @@ public class RentService {
     public void verifyDataDevolucaoIsNull(LocalDate dataDevolucao) {
         if (dataDevolucao != null) {
             throw new DataDevolucaoIsNull(dataDevolucao);
+        }
+    }
+
+    private static void VerifyStatus(Rent existingRent) {
+        if (existingRent.getDateReturn().isAfter(existingRent.getDateForecast())) {
+            existingRent.setStatus("Atrasado");
+        } else {
+            existingRent.setStatus("No prazo");
         }
     }
 
@@ -133,8 +144,6 @@ public class RentService {
     private static void verifyDataMonthPrevisao(RentRequestDTO rentRequestDTO) {
         LocalDate dataAluguel = rentRequestDTO.getDateRent();
         LocalDate dataPrevisao = rentRequestDTO.getDateForecast();
-
-        // Calcule a data 1 mês após a data de aluguel
         LocalDate umMesDepois = dataAluguel.plusMonths(1);
 
         if (dataPrevisao.isAfter(umMesDepois)){
@@ -147,6 +156,14 @@ public class RentService {
 
         if (quantidadeLivro == 0) {
             throw new EstoqueEsgotadoException(rentRequestDTO);
+        }
+    }
+
+    private void VerifyIfDateReturnNULL(Rent existingRent) {
+        if (rentUpdateDTO.getDateReturn() == null) {
+            existingRent.setDateReturn(LocalDate.now());
+        } else {
+            existingRent.setDateReturn(rentUpdateDTO.getDateReturn());
         }
     }
 

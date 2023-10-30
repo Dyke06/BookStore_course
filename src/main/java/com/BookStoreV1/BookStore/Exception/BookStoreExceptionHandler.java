@@ -48,7 +48,7 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler{
         exception.getBindingResult().getGlobalErrors()
                 .forEach(globalErrors -> errors.add("Object " + globalErrors.getObjectName() + " " + globalErrors.getDefaultMessage()));
 
-        return buildResponseEntity(HttpStatus.BAD_REQUEST, "Informed argument(s) validation error(s)", errors);
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, "Informe o campo corretamente!", errors);
     }
 
     @Override

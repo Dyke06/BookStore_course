@@ -29,8 +29,10 @@ public class RequestBookDTO {
     private Integer launch;
 
     @NotNull
-    @Min(1)
     private Integer amount;
+
+    @ApiModelProperty(hidden = true)
+    private Integer totalRent;
 
     @NotNull
     private Long publisherId;

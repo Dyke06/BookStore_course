@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@Api(tags = "Rents")
+@Api(tags = "Rents-controller")
 public interface RentControllerDocs {
 
     @ApiOperation(value = "Rent Operation")
@@ -35,10 +35,4 @@ public interface RentControllerDocs {
 
     RentResponseDTO findById(Long rentId);
 
-    @ApiOperation(value = "Rent delete operation")
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Success rent book"),
-            @ApiResponse(code = 404, message = "Book not rent error")
-    })
-    void delete(Long rentId);
 }

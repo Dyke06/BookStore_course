@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class RelatedPublisherRent extends EntityExistsException {
     public RelatedPublisherRent(long id) {
-        super(String.format("O A publisher não pode ser deletada pois esta associada a uma lista de livros.", id));
+        super(String.format("A editora não pode ser deletada pois esta associada a um livro.", id));
     }
 }

@@ -20,12 +20,14 @@ public class Rent {
 
     private LocalDate dateReturn;
 
+    @Column(length = 10, nullable = false)
+    private String status;
+
     @ManyToOne(cascade = {CascadeType.MERGE})
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Book book;
-
 
 
 }

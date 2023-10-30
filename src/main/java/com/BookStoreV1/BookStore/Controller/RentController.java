@@ -33,17 +33,26 @@ public class RentController implements RentControllerDocs {
     public RentResponseDTO findById(@PathVariable Long id) {
         return rentService.findById(id);
     }
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        rentService.delete(id);
+
+    @GetMapping("/count-pendentes")
+    public long countPendentes() {
+        return rentService.countPendentes();
+    }
+
+    @GetMapping("/count-no-prazo")
+    public long countNoPrazo() {
+        return rentService.countNoPrazo();
+    }
+
+    @GetMapping("/count-atrasados")
+    public long countAtrasado() {
+        return rentService.countAtrasado();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id) {
-            RentResponseDTO responseDTO = rentService.update(id);
-            return ResponseEntity.ok(responseDTO);
+        RentResponseDTO responseDTO = rentService.update(id);
+        return ResponseEntity.ok(responseDTO);
     }
-
 
 }

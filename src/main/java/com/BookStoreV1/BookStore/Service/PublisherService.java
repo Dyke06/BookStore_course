@@ -6,11 +6,13 @@ import com.BookStoreV1.BookStore.Model.Rent;
 import com.BookStoreV1.BookStore.Repository.BookRepository;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Publisher.PublisherAlreadyExistsException;
+import com.BookStoreV1.BookStore.Validation.Publisher.PublisherNameAlreadyExistsException;
 import com.BookStoreV1.BookStore.Validation.Publisher.PublisherNotFoundException;
 import com.BookStoreV1.BookStore.Mapper.PublisherMapper;
 import com.BookStoreV1.BookStore.Model.Publisher;
 import com.BookStoreV1.BookStore.Repository.PublisherRepository;
 import com.BookStoreV1.BookStore.Validation.Publisher.RelatedPublisherRent;
+import com.BookStoreV1.BookStore.Validation.User.EmailAlreadyExistsException;
 import com.BookStoreV1.BookStore.Validation.User.RelatedUserRent;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,10 @@ public class PublisherService {
     }
 
     public PublisherDTO update(Long id, PublisherDTO updatedPublisherDTO) {
-        verifyExists(updatedPublisherDTO.getName());
         Publisher foundPublisher = verifyGetIfExists(id);
+        if (publisherRepository.existsByNameAndIdNot(updatedPublisherDTO.getName(), id)) {
+            throw new PublisherNameAlreadyExistsException();
+        }
         updatedPublisherDTO.setId(foundPublisher.getId());
         Publisher publisherUpdate = publisherMapper.toModel(updatedPublisherDTO);
         Publisher updatedPublisher = publisherRepository.save(publisherUpdate);
