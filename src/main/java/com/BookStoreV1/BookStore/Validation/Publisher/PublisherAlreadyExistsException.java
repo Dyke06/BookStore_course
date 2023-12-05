@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class PublisherAlreadyExistsException extends EntityExistsException {
     public PublisherAlreadyExistsException(String name){
-        super(String.format("Publisher com nome %s já existe!", name));
+        super(String.format("Publisher com o nome %s já existe!", name));
     }
 }

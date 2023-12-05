@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class BookHasRentsException extends EntityExistsException {
     public BookHasRentsException(Long id) {
-        super(String.format("Esse livro não pode ser deletado pois esta associado a um aluguel!", id));
+        super(String.format("Esse livro estar associado a um aluguel!", id));
     }
 }

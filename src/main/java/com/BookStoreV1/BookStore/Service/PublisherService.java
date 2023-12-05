@@ -37,6 +37,17 @@ public class PublisherService {
         return publisherMapper.toDTO(createdPublisher);
     }
 
+    public PublisherDTO update(Long id, PublisherDTO updatedPublisherDTO) {
+        Publisher foundPublisher = verifyGetIfExists(id);
+        if (publisherRepository.existsByNameAndIdNot(updatedPublisherDTO.getName(), id)) {
+            throw new PublisherNameAlreadyExistsException();
+        }
+        updatedPublisherDTO.setId(foundPublisher.getId());
+        Publisher publisherUpdate = publisherMapper.toModel(updatedPublisherDTO);
+        Publisher updatedPublisher = publisherRepository.save(publisherUpdate);
+        return publisherMapper.toDTO(updatedPublisher);
+    }
+
     public PublisherDTO findById(Long id){
         return publisherRepository.findById(id)
                 .map(publisherMapper::toDTO)
@@ -62,17 +73,6 @@ public class PublisherService {
     public boolean hasRentsForPublisher (Long id) {
         List<Book> books = bookRepository.findByPublisherId(id);
         return !books.isEmpty();
-    }
-
-    public PublisherDTO update(Long id, PublisherDTO updatedPublisherDTO) {
-        Publisher foundPublisher = verifyGetIfExists(id);
-        if (publisherRepository.existsByNameAndIdNot(updatedPublisherDTO.getName(), id)) {
-            throw new PublisherNameAlreadyExistsException();
-        }
-        updatedPublisherDTO.setId(foundPublisher.getId());
-        Publisher publisherUpdate = publisherMapper.toModel(updatedPublisherDTO);
-        Publisher updatedPublisher = publisherRepository.save(publisherUpdate);
-        return publisherMapper.toDTO(updatedPublisher);
     }
 
     private void verifyExists(String name) {

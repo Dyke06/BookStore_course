@@ -17,12 +17,12 @@ public class RequestBookDTO {
 
     @NotNull
     @NotEmpty
-    @Size(max = 30)
+    @Size(max = 35)
     private String name;
 
     @NotNull
     @NotEmpty
-    @Size(max = 30)
+    @Size(max = 35)
     private String author;
 
     @NotNull

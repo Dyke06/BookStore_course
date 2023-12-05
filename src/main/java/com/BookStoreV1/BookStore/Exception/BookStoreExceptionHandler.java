@@ -57,7 +57,7 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler{
         if (mostSpecificCause instanceof DateTimeParseException) {
             String errorMessage = "Data inválida. Por favor, forneça uma data no formato correto.";
             List<String> errors = Collections.singletonList(errorMessage);
-            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Malformed JSON body and/or field error", errors);
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Campo informado incorretamente.", errors);
         }
 
         return super.handleHttpMessageNotReadable(exception, headers, status, request);

@@ -10,7 +10,7 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> findByUserId(Long id);
 
     List<Rent> findByBookId(Long id);
-    boolean existsByUserIdAndBookId(Long userId, Long bookId);
+    boolean existsByUserIdAndBookIdAndStatus(Long userId, Long bookId, String status);
 
     @Query("SELECT COUNT(r) FROM Rent r WHERE r.status = 'Pendente'")
     long countPendentes();

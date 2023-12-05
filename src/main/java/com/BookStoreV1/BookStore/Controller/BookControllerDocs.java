@@ -1,7 +1,7 @@
 package com.BookStoreV1.BookStore.Controller;
 
-import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
+import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import io.swagger.annotations.*;
 
 import java.util.List;
@@ -42,7 +42,6 @@ public interface BookControllerDocs {
             @ApiResponse(code = 204, message = "Success update book"),
             @ApiResponse(code = 404, message = "Book error update")
     })
-
     BookResponseDTO update(@ApiParam(value = "Id", required = true) Long bookId,
                            RequestBookDTO requestBookDTO);
 }

@@ -9,6 +9,7 @@ import com.BookStoreV1.BookStore.Model.Rent;
 import com.BookStoreV1.BookStore.Model.User;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Rent.*;
+import com.BookStoreV1.BookStore.Validation.Rent.impl.RentValidatoImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -30,23 +31,15 @@ public class RentService {
 
     private UserService userService;
 
+    private final RentValidatoImpl rentValidation;
+
     private RentUpdateDTO rentUpdateDTO;
 
 
     public RentResponseDTO create(RentRequestDTO rentRequestDTO) throws EstoqueEsgotadoException {
-        if (rentRequestDTO.getDateRent() == null) {
-            rentRequestDTO.setDateRent(LocalDate.now());
-        }
-        if (rentRepository.existsByUserIdAndBookId(rentRequestDTO.getUserId(), rentRequestDTO.getBookId())) {
-            throw new RentUserBook();
-        }
         User foundUser = userService.verifyAndGetUser(rentRequestDTO.getUserId());
         Book foundBook = bookService.verifyAndGetIfExists(rentRequestDTO.getBookId());
-
-        verifyDataDevolucaoIsNull(rentRequestDTO.getDateReturn());
-        verifyDataPrevisao(rentRequestDTO);
-        verifyDataMonthPrevisao(rentRequestDTO);
-        VerifyStock(rentRequestDTO, foundBook);
+        rentValidation.validateRentRequest(rentRequestDTO, foundBook);
 
         Rent rentToSave = rentMapper.toModel(rentRequestDTO);
         rentToSave.setUser(foundUser);
@@ -60,7 +53,6 @@ public class RentService {
         bookService.update(foundBook.getId(), foundBook);
 
         RentResponseDTO rentResponseDTO = rentMapper.toDTO(savedRent);
-
         return rentResponseDTO;
     }
 
@@ -80,7 +72,6 @@ public class RentService {
 
         return rentResponseDTO;
     }
-
 
     private static void RentReturned(Rent existingRent) {
         if (existingRent.getDateReturn() != null) {
@@ -118,44 +109,11 @@ public class RentService {
                 .orElseThrow(() -> new RentNotFoundException(id));
     }
 
-    public void verifyDataDevolucaoIsNull(LocalDate dataDevolucao) {
-        if (dataDevolucao != null) {
-            throw new DataDevolucaoIsNull(dataDevolucao);
-        }
-    }
-
     private static void VerifyStatus(Rent existingRent) {
         if (existingRent.getDateReturn().isAfter(existingRent.getDateForecast())) {
             existingRent.setStatus("Atrasado");
         } else {
             existingRent.setStatus("No prazo");
-        }
-    }
-
-    private static void verifyDataPrevisao(RentRequestDTO rentRequestDTO) {
-        LocalDate dataAluguel = rentRequestDTO.getDateRent();
-        LocalDate dataPrevisao = rentRequestDTO.getDateForecast();
-
-        if (dataPrevisao.isBefore(dataAluguel)) {
-            throw new DataPrevisaoInvalidException(rentRequestDTO);
-        }
-    }
-
-    private static void verifyDataMonthPrevisao(RentRequestDTO rentRequestDTO) {
-        LocalDate dataAluguel = rentRequestDTO.getDateRent();
-        LocalDate dataPrevisao = rentRequestDTO.getDateForecast();
-        LocalDate umMesDepois = dataAluguel.plusMonths(1);
-
-        if (dataPrevisao.isAfter(umMesDepois)){
-            throw new DataPrevisaoMonthException(rentRequestDTO);
-        }
-    }
-
-    private static void VerifyStock(RentRequestDTO rentRequestDTO, Book foundBook) {
-        int quantidadeLivro = foundBook.getAmount();
-
-        if (quantidadeLivro == 0) {
-            throw new EstoqueEsgotadoException(rentRequestDTO);
         }
     }
 

@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class PublisherNameAlreadyExistsException extends EntityExistsException {
     public PublisherNameAlreadyExistsException(){
-        super("Esse nome ja esta sendo usado por outra editora!");
+        super("Nome ja estar sendo usado por outra editora!");
     }
 }

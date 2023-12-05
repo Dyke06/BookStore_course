@@ -6,6 +6,6 @@ import javax.persistence.EntityExistsException;
 
 public class EmailAlreadyExistsException extends EntityExistsException {
     public EmailAlreadyExistsException() {
-        super("Email ja esta em uso por outro usuário");
+        super("Email ja estar em uso por outro usuário.");
     }
 }

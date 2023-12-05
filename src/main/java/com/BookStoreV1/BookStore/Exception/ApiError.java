@@ -19,9 +19,6 @@ public class ApiError {
 
     private String status;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDate timestamp;
-
     private String message;
 
     private List<String> errors;

@@ -13,8 +13,10 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(length = 30, nullable = false)
     private String name;
+
     @Column(length = 30, nullable = false)
     private String city;
 

@@ -4,6 +4,6 @@ import javax.persistence.EntityExistsException;
 
 public class RelatedUserRent extends EntityExistsException {
     public RelatedUserRent(Long id) {
-        super(String.format("Esse usuário não pode ser deletado pois estar relacionado a um aluguel.", id));
+        super(String.format("Esse usuário estar relacionado a um aluguel.", id));
     }
 }

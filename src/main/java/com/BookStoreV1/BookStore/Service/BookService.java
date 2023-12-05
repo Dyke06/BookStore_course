@@ -1,7 +1,7 @@
 package com.BookStoreV1.BookStore.Service;
 
-import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Dto.BookResponseDTO;
+import com.BookStoreV1.BookStore.Dto.RequestBookDTO;
 import com.BookStoreV1.BookStore.Model.Rent;
 import com.BookStoreV1.BookStore.Repository.RentRepository;
 import com.BookStoreV1.BookStore.Validation.Book.*;
@@ -9,14 +9,12 @@ import com.BookStoreV1.BookStore.Mapper.BookMapper;
 import com.BookStoreV1.BookStore.Model.Book;
 import com.BookStoreV1.BookStore.Repository.BookRepository;
 import com.BookStoreV1.BookStore.Model.Publisher;
-import com.BookStoreV1.BookStore.Validation.Publisher.PublisherNameAlreadyExistsException;
+import com.BookStoreV1.BookStore.Validation.Book.impl.BookValidationImpl;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.Comparator;
 import java.util.List;
@@ -35,10 +33,8 @@ public class BookService {
     private PublisherService publisherService;
 
     public BookResponseDTO create(RequestBookDTO requestBookDTO){
-        veirfyValidationDate(requestBookDTO);
-        verifyIfBookAlreadyRegistred(requestBookDTO);
         Publisher foundPublisher = publisherService.verifyGetIfExists(requestBookDTO.getPublisherId());
-        VerifyStock(requestBookDTO);
+        BookValidationImpl.BookValidation(requestBookDTO);
 
         Book bookToSave = bookMapper.toModel(requestBookDTO);
         bookToSave.setPublisher(foundPublisher);
@@ -76,11 +72,9 @@ public class BookService {
 
     public BookResponseDTO update(Long id, RequestBookDTO requestBookDTO){
         Book foundBook = verifyAndGetIfExists(id);
-        veirfyValidationDate(requestBookDTO);
-        if (bookRepository.existsByNameAndIdNot(requestBookDTO.getName(), id)) {
-            throw new BookNameAlreadyExistsException();
-        }
-        VerifyStock(requestBookDTO);
+        BookValidationImpl.veirfyValidationDate(requestBookDTO);
+        BookValidationImpl.verifyAlreadyName(id, requestBookDTO);
+        BookValidationImpl.VerifyStock(requestBookDTO);
         Publisher foundPublisher = publisherService.verifyGetIfExists(requestBookDTO.getPublisherId());
 
         Book bookUpdate = bookMapper.toModel(requestBookDTO);
@@ -105,32 +99,9 @@ public class BookService {
         return !rents.isEmpty();
     }
 
-    private static void VerifyStock(RequestBookDTO requestBookDTO) throws BookStockAlreayException {
-        if (requestBookDTO.getAmount() == 0 || requestBookDTO.getAmount() < 0) {
-            throw new BookStockAlreayException(requestBookDTO);
-        }
-    }
-
-
-    private void veirfyValidationDate(RequestBookDTO requestBookDTO) {
-        if (!isValidYear(requestBookDTO.getLaunch())) {
-            try {
-                throw new BookLaunchExcption(requestBookDTO);
-            } catch (BookLaunchExcption e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public Book verifyAndGetIfExists(Long id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundExeption(id));
-    }
-
-    private void verifyIfBookAlreadyRegistred(RequestBookDTO requestBookDTO) {
-        bookRepository.findByName(requestBookDTO.getName())
-                .ifPresent(duplicatedBook -> {throw new BookAlreadyExistsException(requestBookDTO.getName());
-                });
     }
 
     public void update(Long id, Book book) {
@@ -140,11 +111,4 @@ public class BookService {
         bookRepository.save(existingBook);
     }
 
-    private boolean isValidYear(Integer year) {
-        if (year == null) {
-            return false;
-        }
-        int currentYear = Year.now().getValue();
-        return year >= 1000 && year <= currentYear;
-    }
 }

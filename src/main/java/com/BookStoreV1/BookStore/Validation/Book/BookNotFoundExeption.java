@@ -4,6 +4,6 @@ import javax.persistence.EntityNotFoundException;
 
 public class BookNotFoundExeption extends EntityNotFoundException {
     public BookNotFoundExeption(Long id) {
-        super(String.format("Livro com id %s não existe", id));
+        super(String.format("Livro com id %s não existe!", id));
     }
 }
